@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DecideForMe AI | Better decisions, less overthinking</title>
+<meta name="description" content="DecideForMe AI turns a tough decision into a clear answer: options, trade-offs and a recommendation. Pay-as-you-go credits that never expire.">
+<script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root,:root[data-theme="light"]{
+  --text:#0e0f14;--text-2:#4a4f60;--on-primary:#fff;--primary:#111218;--primary-g1:#1c1d25;--primary-g2:#0a0b0f;--accent:#5b8def;
+  --solid:#fff;--border:#e8eaf2;--danger:#b3261e;--danger-soft:rgba(179,38,30,.1);--success:#1b7f4b;
+  --orb-hi:#fff;--orb-a:#8ec2fa;--orb-b:#a79cf4;--orb-c:#d6b8f6;--orb-rim:#fff;--orb-glow:#9db8ff;
+  --shadow:0 12px 40px rgba(120,140,200,.16);color-scheme:light;
+  --card:#fff;--brand:#1f43f0;--brand-hover:#1736cc;--brand-link:#0a2fd0;--violet:#7566e8;--chip:#f1f3f7;--bg:#f3f5fa;
+}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --text:#f5f6fa;--text-2:#a0a4b2;--on-primary:#0b0c12;--primary:#f5f6fa;--accent:#8fb4ff;
+  --solid:#171922;--border:#2c2f3b;--danger:#ff8a80;--danger-soft:rgba(255,138,128,.14);--success:#6fd6a0;
+  --orb-hi:#e8f1ff;--orb-a:#6fa8f0;--orb-b:#8a7fe0;--orb-c:#b98be0;--orb-rim:#c9d8ff;--orb-glow:#5b74e0;
+  --shadow:0 12px 40px rgba(0,0,0,.4);color-scheme:dark;
+  --card:#12141c;--brand:#4a67ff;--brand-hover:#6a82ff;--brand-link:#8fa6ff;--violet:#a79cf4;--chip:#1d202b;--bg:#090a0f;
+}}
+:root[data-theme="dark"]{
+  --text:#f5f6fa;--text-2:#a0a4b2;--on-primary:#0b0c12;--primary:#f5f6fa;--accent:#8fb4ff;
+  --solid:#171922;--border:#2c2f3b;--danger:#ff8a80;--danger-soft:rgba(255,138,128,.14);--success:#6fd6a0;
+  --orb-hi:#e8f1ff;--orb-a:#6fa8f0;--orb-b:#8a7fe0;--orb-c:#b98be0;--orb-rim:#c9d8ff;--orb-glow:#5b74e0;
+  --shadow:0 12px 40px rgba(0,0,0,.4);color-scheme:dark;
+  --card:#12141c;--brand:#4a67ff;--brand-hover:#6a82ff;--brand-link:#8fa6ff;--violet:#a79cf4;--chip:#1d202b;--bg:#090a0f;
+}
+:root[data-theme="dark"]{--primary-g1:#fff;--primary-g2:#e3e6f0}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--primary-g1:#fff;--primary-g2:#e3e6f0}}
+*{box-sizing:border-box}
+html,body{max-width:100%;overflow-x:clip}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+.grid>*,.bg6>*,.packs>*,.fg>*,.strip>*,.dl>*,main,section{min-width:0}
+body{margin:0;min-height:100dvh;color:var(--text);background:var(--bg);font-family:"Plus Jakarta Sans",ui-sans-serif,system-ui,sans-serif;text-rendering:optimizeLegibility;line-height:1.5}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p,ul{margin:0}ul{padding:0;list-style:none}
+svg.i{width:1em;height:1em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+.wrap{display:flex;flex-direction:column;gap:80px;width:100%;max-width:1248px;margin:0 auto;padding:16px clamp(16px,4vw,32px) 32px}
+@media(min-width:640px){.wrap{gap:112px}}
+/* header */
+header{position:sticky;top:0;z-index:40;background:var(--bg)}
+.hbar{display:flex;height:64px;width:100%;max-width:1248px;margin:0 auto;align-items:center;justify-content:space-between;gap:16px;padding:0 clamp(16px,4vw,32px)}
+@media(max-width:559px){.hs{display:none}}
+@media(max-width:399px){.lt{display:none}}
+.logo{display:flex;align-items:center;gap:8px;font-size:18px;font-weight:700;letter-spacing:-.02em}
+.orb{width:40px;height:40px;border-radius:50%;flex:none;background:radial-gradient(circle at 32% 28%,var(--orb-hi) 0,var(--orb-a) 38%,var(--orb-b) 70%,var(--orb-c) 100%);box-shadow:0 0 0 2px var(--orb-rim) inset,0 4px 18px var(--orb-glow)}
+nav.main{display:none;gap:4px}
+nav.main a{padding:8px 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--text-2)}
+nav.main a:hover{text-decoration:underline}
+nav.main a.active{color:var(--text)}
+@media(min-width:768px){nav.main{display:flex}.burger{display:none!important}}
+.hr{display:flex;align-items:center;gap:8px}
+.btn-pill{display:inline-flex;align-items:center;padding:10px 20px;border-radius:999px;font-size:14px;font-weight:600;color:var(--on-primary);background:linear-gradient(135deg,var(--primary-g1,var(--primary)),var(--primary-g2,var(--primary)));box-shadow:0 4px 6px rgba(0,0,0,.1);transition:transform .15s}
+.btn-pill:hover{transform:scale(1.03)}.btn-pill:active{transform:scale(.97)}
+.burger{width:40px;height:40px;border:0;border-radius:999px;background:rgba(255,255,255,.9);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+:root[data-theme="dark"] .burger{background:rgba(255,255,255,.13)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .burger{background:rgba(255,255,255,.13)}}
+.tw{position:relative}
+.tbtn{width:40px;height:40px;border:0;border-radius:999px;background:rgba(255,255,255,.9);color:var(--text);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer}
+:root[data-theme="dark"] .tbtn{background:rgba(255,255,255,.13)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]) .tbtn{background:rgba(255,255,255,.13)}}
+.tmenu{display:none;position:absolute;right:0;top:48px;min-width:152px;padding:6px;border:1px solid var(--border);background:var(--card);border-radius:16px;box-shadow:var(--shadow);z-index:50}
+.tmenu.open{display:block}
+.tmenu button{display:flex;width:100%;align-items:center;gap:10px;border:0;background:none;color:var(--text);font:inherit;font-size:14px;font-weight:500;padding:10px 12px;border-radius:10px;cursor:pointer;text-align:left}
+.tmenu button:hover{background:var(--chip)}
+.tmenu button[aria-checked=true]{font-weight:600;color:var(--brand-link)}
+.tmenu button .ck{margin-left:auto;opacity:0}
+.tmenu button[aria-checked=true] .ck{opacity:1}
+#mnav{display:none;border-top:1px solid var(--border);padding:12px 16px}
+#mnav.open{display:block}
+#mnav a{display:block;padding:12px;border-radius:12px;font-size:16px;font-weight:500}
+@media(min-width:768px){#mnav{display:none!important}}
+/* shared */
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.025em;text-transform:uppercase;color:var(--brand-link)}
+.head{display:flex;flex-direction:column;gap:8px;max-width:576px}
+.head h2{font-size:30px;line-height:1.2;font-weight:600;letter-spacing:-.025em}
+.head p{font-size:15px;line-height:1.625;color:var(--text-2)}
+@media(min-width:640px){.head h2{font-size:36px}}
+section.s{display:flex;flex-direction:column;gap:40px}
+.card{border:1px solid var(--border);background:var(--card);border-radius:28px}
+.ico{display:flex;width:48px;height:48px;align-items:center;justify-content:center;border-radius:16px;background:var(--chip);color:var(--brand);font-size:24px;transition:background .2s,color .2s}
+.ico.sm{width:44px;height:44px;font-size:20px}
+.btn{display:inline-flex;height:48px;align-items:center;justify-content:center;gap:8px;padding:0 24px;border-radius:12px;font-size:14px;font-weight:600;transition:background .2s,opacity .2s}
+.btn.pri{background:var(--brand);color:#fff}.btn.pri:hover{background:var(--brand-hover)}
+.btn.sec{border:1px solid var(--border);background:var(--solid);color:var(--text)}.btn.sec:hover{background:var(--chip)}
+.btn.wh{background:#fff;color:var(--brand)}.btn.wh:hover{opacity:.9}
+.btn.ol{border:1px solid rgba(255,255,255,.3);color:#fff}.btn.ol:hover{background:rgba(255,255,255,.1)}
+.grid{display:grid;gap:16px}
+@media(min-width:768px){.g3{grid-template-columns:repeat(3,1fr)}.g2{grid-template-columns:repeat(2,1fr)}}
+.reveal{opacity:0;transform:translateY(14px);transition:opacity .6s cubic-bezier(.2,.8,.2,1),transform .6s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+/* hero */
+.hero{position:relative;isolation:isolate;overflow:hidden;text-align:center;border:1px solid var(--border);background:var(--card);border-radius:32px;padding:56px 20px}
+@media(min-width:640px){.hero{border-radius:44px;padding:80px 40px}}
+.hero .o{position:absolute;z-index:-1;border-radius:50%;filter:blur(60px);opacity:.45}
+.hero .o1{width:320px;height:320px;top:-100px;left:-80px;background:var(--orb-a)}
+.hero .o2{width:300px;height:300px;bottom:-110px;right:-70px;background:var(--orb-c)}
+.hero-in{margin:0 auto;display:flex;max-width:768px;flex-direction:column;align-items:center;gap:24px}
+.badge{display:inline-flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--solid);border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600}
+.badge b{width:6px;height:6px;border-radius:50%;background:var(--success)}
+.hero h1{font-size:40px;line-height:1.05;font-weight:600;letter-spacing:-.05em}
+.hero h1 span{color:var(--violet)}
+.hero p{max-width:576px;font-size:16px;line-height:1.625;color:var(--text-2)}
+.row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:12px}
+.sec-note{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-2)}
+.sec-note .ico{width:40px;height:40px;border-radius:50%;font-size:20px}
+@media(min-width:640px){.hero h1{font-size:60px}.hero p{font-size:18px}}
+/* marquee */
+.mq{margin-top:-32px;display:flex;flex-direction:column;gap:20px}
+@media(min-width:640px){.mq{margin-top:-48px}}
+.mq p{text-align:center;font-size:14px;font-weight:500;color:var(--text-2)}
+.mq .vp{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.mq .tr{display:flex;width:max-content;gap:12px;animation:mq 40s linear infinite}
+.mq .tr span{white-space:nowrap;border:1px solid var(--border);background:var(--card);border-radius:999px;padding:10px 20px;font-size:14px;font-weight:500}
+@keyframes mq{to{transform:translateX(calc(-50% - 6px))}}
+/* facts */
+.strip{display:grid;gap:1px;overflow:hidden;border:1px solid var(--border);background:var(--border);border-radius:28px}
+@media(min-width:640px){.strip{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.strip.x4{grid-template-columns:repeat(4,1fr)}}
+.strip>div{display:flex;align-items:flex-start;gap:16px;background:var(--card);padding:24px}
+.strip h3{font-size:15px;font-weight:600}.strip p{margin-top:2px;font-size:14px;color:var(--text-2)}
+/* with / without */
+.cmp{height:100%;padding:24px;border-radius:28px}
+@media(min-width:640px){.cmp{padding:32px}}
+.cmp.no{border:1px solid var(--border);background:var(--card)}
+.cmp.yes{position:relative;overflow:hidden;background:linear-gradient(160deg,var(--brand),#6a55e8);color:#fff;box-shadow:var(--shadow)}
+.tag{display:inline-block;border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+.no .tag{background:var(--danger-soft);color:var(--danger)}
+.yes .tag{background:rgba(255,255,255,.2)}
+.cmp ul{margin-top:24px;display:flex;flex-direction:column;gap:16px;position:relative}
+.cmp li{display:flex;align-items:flex-start;gap:12px;font-size:15px}
+.no li{color:var(--text-2)}
+.cmp li .m{display:flex;width:20px;height:20px;flex:none;align-items:center;justify-content:center;border-radius:50%;margin-top:2px;font-size:12px}
+.no .m{background:var(--danger-soft);color:var(--danger)}
+.yes .m{background:rgba(255,255,255,.2)}
+.yes::after,.cta::before,.cta::after,.pk.hot::before{content:"";position:absolute;border-radius:50%;background:rgba(255,255,255,.1);pointer-events:none}
+.yes::after{width:192px;height:192px;right:-40px;bottom:-48px}
+/* steps */
+.step{display:flex;flex-direction:column;gap:16px;padding:24px;height:100%}
+.step .top{display:flex;align-items:center;justify-content:space-between}
+.step .n{font-size:48px;line-height:1;font-weight:600;color:var(--border)}
+.step h3,.bento h3,.val h3{font-size:18px;font-weight:600;letter-spacing:-.01em}
+.step p,.bento p,.val p{margin-top:6px;font-size:14px;line-height:1.625;color:var(--text-2)}
+/* bento */
+.bg6{display:grid;gap:16px}
+@media(min-width:768px){.bg6{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1024px){.bg6{grid-template-columns:repeat(6,1fr)}.c3{grid-column:span 3}.c2{grid-column:span 2}}
+.bento{display:flex;flex-direction:column;gap:16px;height:100%;padding:24px;transition:box-shadow .2s}
+.bento:hover,.val:hover{box-shadow:var(--shadow)}
+.bento:hover .ico{background:var(--brand);color:#fff}
+.val{display:flex;flex-direction:column;gap:16px;height:100%;padding:24px;transition:box-shadow .2s}
+/* use cases */
+.tabs{display:flex;flex-wrap:wrap;gap:8px}
+.tabs button{cursor:pointer;font:inherit;font-size:14px;font-weight:600;border:1px solid var(--border);background:var(--solid);color:var(--text);border-radius:999px;padding:8px 20px;transition:background .2s}
+.tabs button:hover{background:var(--chip)}
+.tabs button[aria-selected=true]{background:var(--brand);border-color:var(--brand);color:#fff}
+.case{padding:24px;display:none;flex-direction:column;gap:20px}
+.case.on{display:flex}
+@media(min-width:640px){.case{padding:32px}}
+.case .q{font-size:20px;font-weight:600;letter-spacing:-.01em}
+.opts{display:flex;flex-wrap:wrap;gap:8px}
+.opts span{border-radius:999px;background:var(--chip);padding:6px 14px;font-size:13px;font-weight:600}
+.case .out{border-radius:20px;background:var(--chip);padding:16px 20px;font-size:14px;line-height:1.625;color:var(--text-2)}
+/* pricing */
+.packs{display:grid;gap:20px;padding-top:8px}
+@media(min-width:640px){.packs{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1280px){.packs{grid-template-columns:repeat(4,1fr)}}
+.pk{position:relative;display:flex;flex-direction:column;gap:24px;height:100%;padding:24px;border-radius:28px;border:1px solid var(--border);background:var(--card);transition:box-shadow .2s}
+.pk:hover{box-shadow:var(--shadow)}
+.pk.hot{border:0;background:linear-gradient(160deg,var(--brand),#6a55e8);color:#fff;box-shadow:var(--shadow);overflow:visible}
+.pk.hot::before{width:144px;height:144px;top:-40px;right:-40px;clip-path:inset(40px 40px 0 0)}
+.pk .bd{position:absolute;top:-12px;right:20px;border-radius:999px;background:var(--brand);color:#fff;padding:4px 12px;font-size:12px;font-weight:600;box-shadow:0 4px 6px rgba(0,0,0,.15)}
+.pk.hot .bd{background:#fff;color:var(--brand)}
+.pk .nm{display:flex;align-items:center;gap:12px}
+.pk .nm .ico{width:40px;height:40px;border-radius:12px;font-size:20px}
+.pk.hot .nm .ico{background:rgba(255,255,255,.15);color:#fff}
+.pk h3{font-size:24px;font-weight:600;letter-spacing:-.02em}
+.pk .tl{margin-top:8px;font-size:14px;line-height:1.35;color:var(--text-2)}
+.pk.hot .tl{color:rgba(255,255,255,.8)}
+.pk .pr{display:flex;align-items:baseline;gap:6px}
+.pk .pr b{font-size:44px;line-height:1;font-weight:600;letter-spacing:-.02em}
+.pk .pr span{font-size:14px;color:var(--text-2)}.pk.hot .pr span{color:rgba(255,255,255,.75)}
+.pk .btn{width:100%}
+.pk.hot .btn{background:#fff;color:var(--brand)}
+.pk ul{display:flex;flex-direction:column;gap:10px;border-top:1px solid var(--border);padding-top:16px}
+.pk.hot ul{border-color:rgba(255,255,255,.2)}
+.pk li{display:flex;align-items:flex-start;gap:10px;font-size:14px}
+.pk li .m{display:flex;width:16px;height:16px;flex:none;align-items:center;justify-content:center;border-radius:50%;margin-top:2px;background:var(--chip);color:var(--success);font-size:12px}
+.pk.hot li .m{background:rgba(255,255,255,.2);color:#fff}
+/* faq */
+.faq{overflow:hidden;border:1px solid var(--border);background:var(--card);border-radius:28px}
+.faq details{border-bottom:1px solid var(--border)}.faq details:last-child{border:0}
+.faq summary{display:flex;cursor:pointer;list-style:none;align-items:center;justify-content:space-between;gap:16px;padding:20px;font-size:15px;font-weight:500}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary:hover{background:color-mix(in srgb,var(--chip) 60%,transparent)}
+.faq details[open] summary{font-weight:600}
+.faq summary .ch{display:flex;width:32px;height:32px;flex:none;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--text-2);transition:transform .2s}
+.faq details[open] .ch{transform:rotate(180deg)}
+.faq details p{padding:0 20px 20px;font-size:14px;line-height:1.625;color:var(--text-2)}
+.pay{display:flex;align-items:center;gap:12px;font-size:14px;color:var(--text-2)}.pay .i{color:var(--brand)}
+/* cta */
+.cta{position:relative;overflow:hidden;border-radius:32px;background:linear-gradient(135deg,var(--brand),#6a55e8);padding:32px;color:#fff;box-shadow:var(--shadow)}
+@media(min-width:640px){.cta{border-radius:40px;padding:56px}}
+.cta::before{width:288px;height:288px;top:-80px;right:-64px}
+.cta::after{width:256px;height:256px;bottom:-112px;left:33%}
+.cta .in{position:relative;display:flex;flex-direction:column;gap:32px}
+@media(min-width:1024px){.cta .in{flex-direction:row;align-items:center;justify-content:space-between}}
+.cta h2{max-width:576px;font-size:30px;line-height:1.2;font-weight:600;letter-spacing:-.025em}
+.cta p{margin-top:16px;max-width:576px;font-size:15px;line-height:1.625;color:rgba(255,255,255,.8)}
+.cta .kick{display:flex;align-items:center;gap:8px;margin-bottom:16px;font-size:14px;font-weight:600;color:rgba(255,255,255,.85)}
+.cta .btns{display:flex;flex-direction:column;gap:12px}
+@media(min-width:640px){.cta h2{font-size:48px}.cta .btns{flex-direction:row}}
+/* footer */
+footer{width:100%;max-width:1248px;margin:24px auto 0;padding:48px clamp(16px,4vw,32px)}
+/* download */
+.dl{position:relative;isolation:isolate;overflow:hidden;display:grid;gap:40px;align-items:center;border:1px solid var(--border);background:var(--card);border-radius:32px;padding:32px 20px}
+@media(min-width:640px){.dl{border-radius:44px;padding:48px 40px}}
+@media(min-width:1024px){.dl{grid-template-columns:1.1fr 1fr;padding:64px 56px}}
+.dl .o{position:absolute;z-index:-1;border-radius:50%;filter:blur(70px);opacity:.4;animation:dr 12s ease-in-out infinite alternate}
+.dl .o1{width:300px;height:300px;top:-90px;left:-70px;background:var(--orb-a)}
+.dl .o2{width:280px;height:280px;bottom:-100px;right:-60px;background:var(--orb-c);animation-delay:-6s}
+.dl h2{font-size:32px;line-height:1.1;font-weight:600;letter-spacing:-.035em;margin-top:8px}
+.dl h2 span{color:var(--violet)}
+@media(min-width:640px){.dl h2{font-size:44px}}
+.dl .tx p{margin-top:16px;max-width:460px;font-size:16px;line-height:1.625;color:var(--text-2)}
+.dl ul{margin-top:24px;display:flex;flex-wrap:wrap;gap:8px}
+.dl li{display:flex;align-items:center;gap:8px;border:1px solid var(--border);background:var(--solid);border-radius:999px;padding:6px 14px 6px 10px;font-size:13px;font-weight:600}
+.dl li .m{display:flex;width:18px;height:18px;align-items:center;justify-content:center;border-radius:50%;background:var(--chip);color:var(--success);font-size:12px}
+.gp{position:relative;overflow:hidden;margin-top:28px;display:inline-flex;align-items:center;gap:12px;height:60px;padding:0 24px 0 20px;border-radius:16px;background:linear-gradient(135deg,var(--primary-g1),var(--primary-g2));color:var(--on-primary);box-shadow:var(--shadow);transition:transform .2s}
+.gp:hover{transform:translateY(-2px) scale(1.02)}.gp:active{transform:scale(.98)}
+.gp svg{width:28px;height:28px;flex:none}
+.gp small{display:block;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;opacity:.75;line-height:1.1}
+.gp b{display:block;font-size:19px;font-weight:700;letter-spacing:-.01em;line-height:1.15}
+.gp::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:translateX(-120%) skewX(-18deg);animation:sh 3.6s ease-in-out infinite}
+.stage{position:relative;display:flex;justify-content:center;align-items:center;min-height:460px}
+.stage .rg{position:absolute;width:260px;height:260px;border-radius:50%;border:1.5px solid var(--brand);opacity:0;animation:rg 3.6s ease-out infinite}
+.stage .rg:nth-child(2){animation-delay:1.2s}.stage .rg:nth-child(3){animation-delay:2.4s}
+.ph{position:relative;width:216px;height:430px;border-radius:36px;border:6px solid var(--text);background:var(--solid);box-shadow:var(--shadow);animation:fl 5s ease-in-out infinite}
+.ph::before{content:"";position:absolute;top:8px;left:50%;width:56px;height:14px;margin-left:-28px;border-radius:999px;background:var(--text)}
+.scr{display:flex;height:100%;flex-direction:column;align-items:center;gap:14px;padding:46px 14px 16px}
+.scr .orb{width:72px;height:72px;animation:pu 2.4s ease-in-out infinite}
+.scr .t{font-size:14px;font-weight:600;text-align:center;line-height:1.3}
+.scr .c{width:100%;border-radius:14px;background:var(--chip);padding:9px 12px;font-size:12px;font-weight:600;opacity:0;animation:ci .6s ease forwards}
+.scr .c:nth-of-type(1){animation-delay:.3s}.scr .c:nth-of-type(2){animation-delay:.7s}.scr .c:nth-of-type(3){animation-delay:1.1s}
+.scr .mic{margin-top:auto;display:flex;width:52px;height:52px;align-items:center;justify-content:center;border-radius:50%;background:var(--brand);color:#fff;font-size:22px;animation:mp 1.8s ease-out infinite}
+.fc{display:none;position:absolute;align-items:center;gap:10px;border:1px solid var(--border);background:var(--card);border-radius:16px;padding:10px 14px;box-shadow:var(--shadow);animation:fl 4.5s ease-in-out infinite}
+.fc .ico{width:34px;height:34px;border-radius:10px;font-size:16px;color:var(--success)}
+.fc p{font-size:11px;color:var(--text-2)}.fc b{display:block;font-size:13px;font-weight:600;color:var(--text)}
+.fc.a{left:0;bottom:70px;animation-delay:-1.5s}.fc.b{right:0;top:50px}
+@media(min-width:640px){.fc{display:flex}}
+@keyframes fl{50%{transform:translateY(-12px)}}
+@keyframes pu{50%{transform:scale(1.08)}}
+@keyframes rg{0%{transform:scale(.7);opacity:.55}100%{transform:scale(1.5);opacity:0}}
+@keyframes sh{0%,55%{transform:translateX(-120%) skewX(-18deg)}100%{transform:translateX(420%) skewX(-18deg)}}
+@keyframes ci{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mp{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--brand) 50%,transparent)}100%{box-shadow:0 0 0 16px transparent}}
+@keyframes dr{to{transform:translate(30px,20px)}}
+@media(prefers-reduced-motion:reduce){.dl .o,.stage .rg,.ph,.scr .orb,.scr .mic,.fc,.gp::after{animation:none}.scr .c{opacity:1;animation:none}}
+.fg{display:grid;gap:40px}
+@media(min-width:768px){.fg{grid-template-columns:1.4fr repeat(3,1fr)}}
+footer p.t{max-width:320px;margin-top:12px;font-size:14px;line-height:1.625;color:var(--text-2)}
+footer h2{margin-bottom:12px;font-size:14px;font-weight:500;color:var(--text-2)}
+footer li{margin-bottom:10px;font-size:14px}footer li a:hover{text-decoration:underline}
+.fb{margin-top:48px;display:flex;flex-direction:column;gap:8px;border-top:1px solid var(--border);padding-top:24px;font-size:14px}
+.fb small{font-size:12px;color:var(--text-2)}
+@media(min-width:640px){.fb{flex-direction:row;align-items:center;justify-content:space-between}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.mq .tr{animation:none}.reveal{opacity:1;transform:none;transition:none}}
+/* desktop: tighter padding (mobile unchanged) */
+@media(min-width:1024px){
+  .wrap,.hbar,footer{max-width:1440px;padding-left:20px;padding-right:20px}
+  .wrap{gap:72px;padding-top:8px}
+  .hero{padding:56px 32px}
+  .dl{padding:44px 40px}
+  .cta{padding:40px}
+  .card.step,.card.bento,.card.val,.cmp,.pk{padding:20px}
+  footer{padding-top:32px;padding-bottom:32px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hbar">
+    <a href="#top" class="logo"><span class="orb"></span><span class="lt">DecideForMe AI</span></a>
+    <nav class="main" aria-label="Main">
+      <a href="#about">About</a><a href="#how">How it works</a><a href="#pricing">Pricing</a>
+    </nav>
+    <div class="hr">
+      <div class="tw">
+        <button class="tbtn" id="tbtn" aria-label="Theme" aria-haspopup="menu" aria-expanded="false"></button>
+        <div class="tmenu" id="tmenu" role="menu" aria-label="Theme">
+          <button role="menuitemradio" data-t="light"><i data-i="sun"></i>Light<i data-i="check" class="ck"></i></button>
+          <button role="menuitemradio" data-t="dark"><i data-i="moon"></i>Dark<i data-i="check" class="ck"></i></button>
+          <button role="menuitemradio" data-t="system"><i data-i="monitor"></i>System<i data-i="check" class="ck"></i></button>
+        </div>
+      </div>
+      <a href="/login" class="btn-pill">Try<span class="hs">&nbsp;DecideForMe AI</span></a>
+      <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false"><i data-i="menu"></i></button>
+    </div>
+  </div>
+  <nav id="mnav" aria-label="Mobile">
+    <a href="#about">About</a><a href="#how">How it works</a><a href="#pricing">Pricing</a>
+    <a href="/login" style="color:var(--text-2)">Sign in</a>
+  </nav>
+</header>
+
+<main class="wrap" id="top">
+
+  <!-- HERO -->
+  <section class="hero" id="about">
+    <span class="o o1"></span><span class="o o2"></span>
+    <div class="hero-in">
+      <div class="reveal"><span class="badge"><b></b>Five simple steps</span></div>
+      <h1 class="reveal">Better decisions,<br><span>less overthinking.</span></h1>
+      <p class="reveal">Most people do not struggle to find options, they struggle to weigh them. We do the weighing with you, explain the reasoning, and give you a next step.</p>
+      <div class="row reveal">
+        <a href="/login" class="btn pri">Try it now <i data-i="arrow"></i></a>
+        <a href="#pricing" class="btn sec">View pricing</a>
+      </div>
+      <div class="sec-note reveal"><span class="ico"><i data-i="shield"></i></span>Secure payments via Cashfree</div>
+    </div>
+  </section>
+
+  <!-- MARQUEE -->
+  <section class="mq" aria-label="Example decisions">
+    <p>From small choices to life decisions</p>
+    <div class="vp"><div class="tr" id="mq"></div></div>
+  </section>
+
+  <!-- FACTS -->
+  <div class="strip x4 reveal">
+    <div><span class="ico sm"><i data-i="inf"></i></span><div><h3>Credits never expire</h3><p>Buy once, use any time.</p></div></div>
+    <div><span class="ico sm"><i data-i="refresh"></i></span><div><h3>Auto refund</h3><p>Failed analysis? Credit comes back.</p></div></div>
+    <div><span class="ico sm"><i data-i="wallet"></i></span><div><h3>No subscription</h3><p>Pay only when you need it.</p></div></div>
+    <div><span class="ico sm"><i data-i="scale"></i></span><div><h3>One clear answer</h3><p>Options, trade-offs, recommendation.</p></div></div>
+  </div>
+
+  <!-- WITH / WITHOUT -->
+  <section class="s">
+    <div class="head"><span class="eyebrow">Why we built it</span><h2>Deciding should not feel this heavy</h2><p>Information is everywhere. What is missing is a calm way to turn it into a choice you feel good about.</p></div>
+    <div class="grid g2">
+      <div class="reveal"><div class="cmp no"><span class="tag">Without a system</span><ul>
+        <li><span class="m"><i data-i="x"></i></span>Ten tabs open, no clear winner</li>
+        <li><span class="m"><i data-i="x"></i></span>Going around in circles at night</li>
+        <li><span class="m"><i data-i="x"></i></span>Asking five people, getting five answers</li>
+        <li><span class="m"><i data-i="x"></i></span>Deciding late, or not at all</li></ul></div></div>
+      <div class="reveal"><div class="cmp yes"><span class="tag" style="position:relative">With DecideForMe AI</span><ul>
+        <li><span class="m"><i data-i="check"></i></span>Options compared in one place</li>
+        <li><span class="m"><i data-i="check"></i></span>Reasoning you can read and check</li>
+        <li><span class="m"><i data-i="check"></i></span>Weighted by what matters to you</li>
+        <li><span class="m"><i data-i="check"></i></span>A next step, and a nudge to take it</li></ul></div></div>
+    </div>
+  </section>
+
+  <!-- HOW -->
+  <section class="s" id="how">
+    <div class="head"><span class="eyebrow">How it works</span><h2>Three steps from stuck to sorted</h2><p>No setup, no learning curve. Start with the question already in your head.</p></div>
+    <div class="grid g3">
+      <div class="reveal"><div class="card step"><div class="top"><span class="ico"><i data-i="mic"></i></span><span class="n">1</span></div><div><h3>Type or speak</h3><p>Describe your decision the way you would tell a friend. Messy is fine.</p></div></div></div>
+      <div class="reveal"><div class="card step"><div class="top"><span class="ico"><i data-i="scale"></i></span><span class="n">2</span></div><div><h3>We weigh it with you</h3><p>Options are compared side by side, with the trade-offs behind each one.</p></div></div></div>
+      <div class="reveal"><div class="card step"><div class="top"><span class="ico"><i data-i="pointer"></i></span><span class="n">3</span></div><div><h3>Get a next step</h3><p>You get a clear recommendation, plus reminders and check-ins to follow through.</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section class="s" id="features">
+    <div class="head"><span class="eyebrow">What you get</span><h2>Everything you need to decide well</h2><p>Built around one idea: your decision, your priorities, a clear answer.</p></div>
+    <div class="bg6">
+      <div class="c3 reveal"><div class="card bento"><span class="ico"><i data-i="mic"></i></span><div><h3>Type or speak your decision</h3><p>Say it out loud while walking, or type it in a minute. Your browser turns voice into text, and we do not store the audio.</p></div></div></div>
+      <div class="c3 reveal"><div class="card bento"><span class="ico"><i data-i="scale"></i></span><div><h3>Options and trade-offs</h3><p>See each option next to the others, with what you gain and what you give up.</p></div></div></div>
+      <div class="c2 reveal"><div class="card bento"><span class="ico"><i data-i="compass"></i></span><div><h3>Your priorities</h3><p>Rank what matters, like family, health or money, and answers lean towards it.</p></div></div></div>
+      <div class="c2 reveal"><div class="card bento"><span class="ico"><i data-i="bell"></i></span><div><h3>Follow-through</h3><p>Reminders and check-ins, so the decision turns into action.</p></div></div></div>
+      <div class="c2 reveal"><div class="card bento"><span class="ico"><i data-i="clock"></i></span><div><h3>History</h3><p>Every decision is saved. Look back, compare, or delete it any time.</p></div></div></div>
+      <div class="c3 reveal"><div class="card bento"><span class="ico"><i data-i="list"></i></span><div><h3>Ready-made templates</h3><p>Loans, big purchases and more. Fill a short form and get a well-framed question.</p></div></div></div>
+      <div class="c3 reveal"><div class="card bento"><span class="ico"><i data-i="calc"></i></span><div><h3>Live EMI preview</h3><p>For money decisions, see the monthly EMI as you type, before you ask.</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- USE CASES -->
+  <section class="s">
+    <div class="head"><span class="eyebrow">Use cases</span><h2>Try it on a real decision</h2><p>Pick a topic to see what a question and an answer can look like.</p></div>
+    <div>
+      <div class="tabs" role="tablist" id="tabs"></div>
+      <div id="cases" style="margin-top:16px"></div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="s" id="pricing">
+    <div class="head"><span class="eyebrow">Credits</span><h2>Simple, fair and pay-as-you-go</h2><p>Credits are like a prepaid balance. Pay securely with Cashfree and keep your credits forever.</p></div>
+    <!-- TODO: replace names, credits and prices with your real CREDIT_PACKS values -->
+    <div class="packs" id="packs"></div>
+    <div class="strip x4 reveal">
+      <div><span class="ico sm"><i data-i="inf"></i></span><div><h3>Credits never expire</h3><p>No monthly resets. Use them whenever you want.</p></div></div>
+      <div><span class="ico sm"><i data-i="refresh"></i></span><div><h3>Auto refund on failure</h3><p>If an analysis fails, credits come back instantly.</p></div></div>
+      <div><span class="ico sm"><i data-i="lock"></i></span><div><h3>Secure checkout</h3><p>Payments are processed by Cashfree, 256-bit encrypted.</p></div></div>
+      <div><span class="ico sm"><i data-i="badge"></i></span><div><h3>No subscription</h3><p>Pay only when you buy. No hidden recurring charges.</p></div></div>
+    </div>
+  </section>
+
+  <!-- DATA -->
+  <section class="s">
+    <div class="head"><span class="eyebrow">Your data</span><h2>What happens to what you tell us</h2><p>Plain answers, so there are no surprises.</p></div>
+    <div class="strip" style="grid-template-columns:1fr" id="data"></div>
+    <div class="pay"><i data-i="lock"></i>Payments are processed securely by Cashfree.</div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="s">
+    <div class="head"><span class="eyebrow">Our values</span><h2>What we stand for</h2></div>
+    <div class="grid g3">
+      <div class="reveal"><div class="card val"><span class="ico"><i data-i="eye"></i></span><div><h3>Show the reasoning</h3><p>A recommendation is only useful if you can see why. Every analysis lays out the trade-offs behind the answer.</p></div></div></div>
+      <div class="reveal"><div class="card val"><span class="ico"><i data-i="heart"></i></span><div><h3>Fair, simple pricing</h3><p>Pay-as-you-go credits, no subscriptions, and a refund of the credit when an analysis fails.</p></div></div></div>
+      <div class="reveal"><div class="card val"><span class="ico"><i data-i="lock"></i></span><div><h3>Respect for your data</h3><p>Payments run through Cashfree, and your decisions stay yours.</p></div></div></div>
+    </div>
+  </section>
+
+  <!-- DOWNLOAD APP -->
+  <section class="dl reveal" id="download" style="scroll-margin-top:96px">
+    <span class="o o1"></span><span class="o o2"></span>
+    <div class="tx">
+      <span class="eyebrow">Get the app</span>
+      <h2>Take your decisions <span>everywhere.</span></h2>
+      <p>Get the DecideForMe AI Android app. Speak your question, compare options and get a clear next step, right from your phone.</p>
+      <ul>
+        <li><span class="m"><i data-i="check"></i></span>Type or speak</li>
+        <li><span class="m"><i data-i="check"></i></span>Credits never expire</li>
+        <li><span class="m"><i data-i="check"></i></span>No subscription</li>
+      </ul>
+      <!-- TODO: replace # with your Google Play link -->
+      <a href="#" class="gp" target="_blank" rel="noopener" aria-label="Get it on Google Play">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#00A0FF" d="M3.6 1.5 13.1 12 3.6 22.5 3 21.2V2.8z"/><path fill="#FFD400" d="M16.3 8.8 13.1 12l3.2 3.2 3.8-2.2c1.1-.6 1.1-1.7 0-2.4z"/><path fill="#00E27A" d="M3.6 1.5 16.3 8.8 13.1 12z"/><path fill="#FF3A44" d="M3.6 22.5 13.1 12l3.2 3.2z"/></svg>
+        <span><small>Get it on</small><b>Google Play</b></span>
+      </a>
+    </div>
+    <div class="stage" aria-hidden="true">
+      <span class="rg"></span><span class="rg"></span><span class="rg"></span>
+      <div class="ph"><div class="scr">
+        <span class="orb"></span>
+        <p class="t">What are you<br>deciding today?</p>
+        <div class="c">Rent or buy a home?</div>
+        <div class="c">Accept the job offer?</div>
+        <div class="c">Which laptop to get?</div>
+        <span class="mic"><i data-i="mic"></i></span>
+      </div></div>
+      <div class="fc a"><span class="ico"><i data-i="refresh"></i></span><div><p>Failed analysis</p><b>Credit refunded</b></div></div>
+      <div class="fc b"><div><p>Subscriptions</p><b style="font-size:26px;line-height:1">0</b></div></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="s" id="faq" style="scroll-margin-top:96px">
+    <div class="head"><span class="eyebrow">FAQ</span><h2>Questions people ask</h2><p>These cover what people ask most.</p></div>
+    <div class="faq reveal">
+      <details open><summary>Do purchased credits ever expire?<span class="ch"><i data-i="down"></i></span></summary><p>No. Your credits stay in your wallet permanently until you use them. There are no monthly resets or expiration dates.</p></details>
+      <details><summary>What payment methods are supported?<span class="ch"><i data-i="down"></i></span></summary><p>Cashfree securely supports UPI (Google Pay, PhonePe, Paytm, BHIM), RuPay, Visa and Mastercard credit and debit cards, Net Banking across 50+ Indian banks, and leading wallets.</p></details>
+      <details><summary>What happens if an AI decision generation fails?<span class="ch"><i data-i="down"></i></span></summary><p>If the AI service hits a network error or cannot complete your analysis, your credits are returned to your balance automatically.</p></details>
+      <details><summary>Is this a recurring subscription?<span class="ch"><i data-i="down"></i></span></summary><p>No. DecideForMe AI is 100% pay-as-you-go. You only pay when you choose to buy credits, with no recurring or hidden charges.</p></details>
+      <details><summary>What happens to my decisions and voice input?<span class="ch"><i data-i="down"></i></span></summary><p>Your decisions are sent to the AI service to make the analysis and saved to your history. Voice becomes text in your browser, and this site does not store your audio. You can delete a decision, clear history, or delete your account anytime.</p></details>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta reveal">
+    <div class="in">
+      <div>
+        <div class="kick"><i data-i="badge"></i>No subscription. Credits never expire.</div>
+        <h2>Ready to try your first decision?</h2>
+        <p>Start with a credit pack and use it whenever you need.</p>
+      </div>
+      <div class="btns">
+        <a href="/login" class="btn wh">Try it now <i data-i="arrow"></i></a>
+        <a href="#pricing" class="btn ol">View pricing</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="fg">
+    <div>
+      <a href="#top" class="logo"><span class="orb"></span>DecideForMe AI</a>
+      <p class="t">Clear answers for tough decisions.</p>
+    </div>
+    <nav aria-label="Product"><h2>Product</h2><ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li><li><a href="#download">Get the app</a></li><li><a href="/wallet">Wallet</a></li></ul></nav>
+    <nav aria-label="Company"><h2>Company</h2><ul><li><a href="#about">About</a></li><li><a href="/contact">Contact</a></li></ul></nav>
+    <nav aria-label="Terms and policies"><h2>Terms &amp; Policies</h2><ul><li><a href="/terms">Terms of Use</a></li><li><a href="/privacy">Privacy Policy</a></li><li><a href="/refund">Refund Policy</a></li></ul></nav>
+  </div>
+  <div class="fb"><p>© <span id="yr"></span> DecideForMe AI. All rights reserved.</p><small>Payments secured by Cashfree · Made in India</small></div>
+</footer>
+
+<script>
+/* icons (lucide paths) */
+const P={
+arrow:'<path d="M5 12h14M12 5l7 7-7 7"/>',check:'<path d="M20 6 9 17l-5-5"/>',x:'<path d="M18 6 6 18M6 6l12 12"/>',
+mic:'<rect x="9" y="2" width="6" height="13" rx="3"/><path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3"/>',
+refresh:'<path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8M21 3v5h-5M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16M3 16h5v5"/>',
+wallet:'<path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4"/>',
+lock:'<rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>',
+inf:'<path d="M6 16c5 0 7-8 12-8a4 4 0 0 1 0 8c-5 0-7-8-12-8a4 4 0 1 0 0 8"/>',
+scale:'<path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM2 16l3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1ZM7 21h10M12 3v18M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2"/>',
+clock:'<circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>',
+compass:'<circle cx="12" cy="12" r="10"/><path d="m16.24 7.76-1.8 5.41a2 2 0 0 1-1.27 1.27L7.76 16.24l1.8-5.41a2 2 0 0 1 1.27-1.27z"/>',
+list:'<path d="m3 17 2 2 4-4M3 7l2 2 4-4M13 6h8M13 12h8M13 18h8"/>',
+calc:'<rect x="4" y="2" width="16" height="20" rx="2"/><path d="M8 6h8M16 14v4M16 10h.01M12 10h.01M8 10h.01M12 14h.01M8 14h.01M12 18h.01M8 18h.01"/>',
+bell:'<path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9M10.3 21a1.94 1.94 0 0 0 3.4 0"/>',
+eye:'<path d="M2.06 12.35a1 1 0 0 1 0-.7 10.75 10.75 0 0 1 19.88 0 1 1 0 0 1 0 .7 10.75 10.75 0 0 1-19.88 0"/><circle cx="12" cy="12" r="3"/>',
+down:'<path d="m6 9 6 6 6-6"/>',menu:'<path d="M4 12h16M4 6h16M4 18h16"/>',trash:'<path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>',
+shield:'<path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/>',
+badge:'<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+heart:'<path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>',
+pointer:'<path d="M14 4.1 12 6M5.1 8l-2.9-.8M6 12l-1.9 2M7.2 2.2 8 5.1M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/>',
+sparkle:'<path d="M9.94 14.06 8 20l-1.94-5.94L0 12l6.06-2.06L8 4l1.94 5.94L16 12zM19 3v4M21 5h-4"/>',
+zap:'<path d="M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z"/>',
+crown:'<path d="M11.56 3.27a.55.55 0 0 1 .88 0l3.28 4.4a1 1 0 0 0 1.5.15l3.26-3.24a.5.5 0 0 1 .83.46l-2.34 11.38a1 1 0 0 1-.98.8H6.01a1 1 0 0 1-.98-.8L2.7 5.04a.5.5 0 0 1 .83-.46l3.26 3.24a1 1 0 0 0 1.5-.15zM5 21h14"/>'};
+P.sun='<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>';
+P.moon='<path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/>';
+P.monitor='<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>';
+const svg=(n,c)=>'<svg class="i'+(c?' '+c:'')+'" viewBox="0 0 24 24" aria-hidden="true">'+P[n]+'</svg>';
+const paint=r=>(r||document).querySelectorAll('i[data-i]').forEach(e=>{e.outerHTML=svg(e.dataset.i,e.className)});
+
+/* marquee */
+const EX=["Rent or buy a home?","Take the personal loan?","Switch careers this year?","Which laptop should I get?","Move to a new city?","Start a side business?","Pay off debt or invest?","Accept the job offer?","Which course should I join?","Buy a car or keep my bike?"];
+document.getElementById('mq').innerHTML=[...EX,...EX].map(t=>'<span>'+t+'</span>').join('');
+
+/* data points */
+document.getElementById('data').innerHTML=[
+ ['eye','Your decisions create your answer','They are sent to the AI service to make the analysis, and saved to your history.'],
+ ['mic','Voice becomes text in your browser','Your browser\'s speech service does the conversion. This site does not store your audio.'],
+ ['trash','Delete whenever you like','Remove one decision, clear your history, or delete your account from your Profile.']
+].map(d=>'<div style="display:flex;flex-direction:column;gap:16px;background:var(--card);padding:24px"><span class="ico sm">'+svg(d[0])+'</span><div><h3 style="font-size:15px;font-weight:600">'+d[1]+'</h3><p style="margin-top:4px;font-size:14px;line-height:1.625;color:var(--text-2)">'+d[2]+'</p></div></div>').join('');
+if(matchMedia('(min-width:768px)').matches)document.getElementById('data').style.gridTemplateColumns='repeat(3,1fr)';
+
+/* use cases */
+const CASES=[
+ ['Money','Should I pay off my loan early or invest the extra cash?',['Pay off loan','Invest it','Split 50/50'],'A side-by-side view of interest saved versus likely returns, and what each choice means for your safety net.'],
+ ['Career','Should I accept the new job offer or stay where I am?',['Accept offer','Stay','Negotiate first'],'Growth, pay, stability and risk laid out clearly, so the trade-offs are visible before you reply.'],
+ ['Life','Should I move to a bigger city for better opportunities?',['Move now','Wait a year','Try remote first'],'What you gain, what you give up, and which option fits your priorities, such as family or freedom.'],
+ ['Everyday','Which laptop should I buy for coding and travel?',['Lightweight','Powerful','Mid-range'],'A quick comparison by what you actually use it for, ending in one pick you can buy with confidence.']];
+const tabs=document.getElementById('tabs'),cases=document.getElementById('cases');
+CASES.forEach((c,i)=>{
+ tabs.insertAdjacentHTML('beforeend','<button role="tab" aria-selected="'+(i==0)+'" data-i="'+i+'">'+c[0]+'</button>');
+ cases.insertAdjacentHTML('beforeend','<div class="card case'+(i==0?' on':'')+'"><p class="q">'+c[1]+'</p><div class="opts">'+c[2].map(o=>'<span>'+o+'</span>').join('')+'</div><div class="out">'+c[3]+'</div></div>');
+});
+tabs.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;
+ tabs.querySelectorAll('button').forEach(x=>x.setAttribute('aria-selected',x===b));
+ [...cases.children].forEach((x,i)=>x.classList.toggle('on',i==b.dataset.i));});
+
+/* packs — EDIT with your real values */
+const PACKS=[
+ {n:'Starter',c:10,p:49,ic:'zap',t:'Best for trying out DecideForMe'},
+ {n:'Popular',c:30,p:129,ic:'sparkle',t:'Best for regular decisions',hot:1,b:'Most popular'},
+ {n:'Pro',c:75,p:299,ic:'crown',t:'Best for heavy users'},
+ {n:'Mega',c:200,p:699,ic:'crown',t:'Best for teams and power users'}];
+document.getElementById('packs').innerHTML=PACKS.map((k,i)=>{
+ const f=[k.c+' AI decisions','₹'+(k.p/k.c).toFixed(1)+' per credit','Credits never expire'].concat(k.c>=30?['Priority support & follow-throughs']:[]);
+ return '<div class="reveal"><div class="pk'+(k.hot?' hot':'')+'">'+(k.b?'<span class="bd">'+k.b+'</span>':'')+
+ '<div style="position:relative;min-height:92px"><div class="nm"><span class="ico">'+svg(k.ic)+'</span><h3>'+k.n+'</h3></div><p class="tl">'+k.t+'</p></div>'+
+ '<div class="pr"><b>₹'+k.p+'</b><span>/ one-time</span></div>'+
+ '<a href="/purchase?pack='+k.n.toLowerCase()+'" class="btn pri" style="position:relative">Get '+k.n+svg('arrow')+'</a>'+
+ '<div><p style="font-size:12px;font-weight:600;margin-bottom:12px;color:'+(k.hot?'rgba(255,255,255,.8)':'var(--text-2)')+'">'+(i?'Everything in '+PACKS[i-1].n+' and:':"What's included:")+'</p><ul>'+f.map(x=>'<li><span class="m">'+svg('check')+'</span>'+x+'</li>').join('')+'</ul></div></div></div>';
+}).join('');
+
+paint();
+document.getElementById('yr').textContent=new Date().getFullYear();
+
+/* theme: light | dark | system */
+const tb=document.getElementById('tbtn'),tm=document.getElementById('tmenu'),root=document.documentElement;
+const getT=()=>{try{const t=localStorage.getItem('theme');return t==='light'||t==='dark'?t:'system'}catch(e){return'system'}};
+function setT(t){
+ if(t==='system')root.removeAttribute('data-theme');else root.setAttribute('data-theme',t);
+ try{t==='system'?localStorage.removeItem('theme'):localStorage.setItem('theme',t)}catch(e){}
+ tb.innerHTML=svg(t==='light'?'sun':t==='dark'?'moon':'monitor');
+ tm.querySelectorAll('button').forEach(b=>b.setAttribute('aria-checked',b.dataset.t===t));
+}
+setT(getT());
+tb.onclick=e=>{e.stopPropagation();const o=tm.classList.toggle('open');tb.setAttribute('aria-expanded',o)};
+tm.addEventListener('click',e=>{const b=e.target.closest('button');if(!b)return;setT(b.dataset.t);tm.classList.remove('open');tb.setAttribute('aria-expanded',false)});
+document.addEventListener('click',()=>{tm.classList.remove('open');tb.setAttribute('aria-expanded',false)});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){tm.classList.remove('open');tb.setAttribute('aria-expanded',false)}});
+
+/* mobile menu */
+const bg=document.getElementById('burger'),mn=document.getElementById('mnav');
+bg.onclick=()=>{const o=mn.classList.toggle('open');bg.setAttribute('aria-expanded',o);bg.setAttribute('aria-label',o?'Close menu':'Open menu')};
+mn.addEventListener('click',e=>{if(e.target.closest('a')){mn.classList.remove('open');bg.setAttribute('aria-expanded',false)}});
+
+/* reveal on scroll */
+const io='IntersectionObserver'in window?new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12}):null;
+document.querySelectorAll('.reveal').forEach(el=>io?io.observe(el):el.classList.add('in'));
+</script>
+</body>
+</html>
